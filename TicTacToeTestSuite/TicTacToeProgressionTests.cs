@@ -15,6 +15,7 @@ namespace TicTacToeTestSuite
              * 
              * Instead of taking each progression and testing that it is different to every other progression, taking at a minimum of (362,880(362,880 - 1)) / 2 == 65,840,765,760 operations.
              * 
+             * BASE INFORMATION
              * 1. Number of ways the fill a TicTacToe board = 9! = 362,880 = number of progressions
              * 2. 9 possible options for the first move
              * 3. Number of progressions with the first move to square 0, sqaure 1, square 2, square 3, etc is 9!/9 = 40,320. (To prove)
@@ -23,10 +24,12 @@ namespace TicTacToeTestSuite
              * 6. The pattern continues...(To prove)
              * 
              * 
-             * It works by knowing the progressions are in a particular order. If they are in a particular order the above is true.
-             * For example
-             *  1. Checks that all first moves to square 0 are from 0 - 40319 (where 0 is the first)
-             *  2. Checks 0 - 5039 the first moves are to square 0 and the second moves are to square 1.
+             * IT WORKS BY KNOWING THAT THE PROGRESSIONS ARE IN A PARTICULAR ORDER. 
+             * 1. Each of the functions called to prove the required conditions returns either null or an integer.
+             * 2. If null is returned the block is unique, but if an inter is returned it does not mean that the 
+             *    progressions are not unique.
+             * 3. The functions must be called in order to prove uniqueness.
+             * 4. All the testing function are tested for a failure when the progressions are not in the expected order.
              * 
              * Works, but it could be clearer. I think that the idea here can be used as a basis for refactoring.
              * This is more an example of how to test uniquness in a more efficient way than a minimum 65,840,765,760. Instead it is closer to 362,880 * 9 or 2,903,040 operations.
@@ -45,6 +48,13 @@ namespace TicTacToeTestSuite
                 p = ticTacProgressions.GetProgression(index);
             }
 
+            // !Null doesn't mean there are not unique, but null does mean they are unique. 
+            /* Example: Run the test and it will pass if the progressions are in the right order,
+            *           then swap progressions[0] with progressions[40320]. The progressions will
+            *           still be unique but this test suite will fail becuase the progressions
+            *           are not in the right order. Same goes for every function in the 
+            *           ProgressionsUniqueness class.
+            */          
             Assert.IsNull(ProgressionUniqueness.Prove40320BlocksAreUnique(progressions));
 
             int firstMoveBlockSize = 40320;
@@ -88,6 +98,11 @@ namespace TicTacToeTestSuite
             {
                 Assert.IsNull(ProgressionUniqueness.Prove1BlocksAreUnique(progressions, i));
             }
+
+
+            /* The next set of tests are to show that ProveXBlocksAreUnique() functions return !null when the
+             * progressions are not ina particular order.
+             */
 
             // Force a different organisation of the progressions - level 1
             // Proves that the 40320 - 80639 move 1 is not to position 0.
@@ -154,7 +169,9 @@ namespace TicTacToeTestSuite
                 {
                     if (((Progression)progressions[i]).GetMove(MoveNumber.one).Square != square)
                     {
-                        return i; // return the index of the 
+                        // There is a progression that is in an unexpected position in the collection, becuase Move one has a square that is unexpected. Doesn't men the progressions are not unique.
+                        // But if this return never happens, then we know the Number of progressions with the first move to square 0, sqaure 1, square 2, square 3, etc is 9!/9 = 40,320.
+                        return i; 
                     }
                 }
                 startIndex = endIndex;
