@@ -19,27 +19,27 @@ namespace TicTacToe
 
             // Determine which move will yield the best odd for a win or draw scenario.
             // TODO: This is outrageously UGLY - Refactor
-            int bestOdds = 0;
+            decimal bestOdds = 0;
             int bestOutcome = 0;
             for (int outcome = 0; outcome < outcomes.Count; outcome++)
             {
-                int draw = ((int[])outcomes[outcome])[0];
-
                 int total = ((int[])outcomes[outcome])[0] + ((int[])outcomes[outcome])[1] + ((int[])outcomes[outcome])[2];
                 if (nextToMove == Mover.first)
                 {
-                    if (((((int[])outcomes[outcome])[1] + ((int[])outcomes[outcome])[0]) / total) > bestOdds)
+                    if ((((decimal)((int[])outcomes[outcome])[1] + (decimal)((int[])outcomes[outcome])[0]) / (decimal)total) > bestOdds)
                     {
-                        bestOdds = (((int[])outcomes[outcome])[1] + ((int[])outcomes[outcome])[0]) / total;
+                        bestOdds = ((decimal)((int[])outcomes[outcome])[1] + (decimal)((int[])outcomes[outcome])[0]) / (decimal)total;
                         bestOutcome = ((int[])outcomes[outcome])[3];
                     }
                 }
                 else
                 {
-                    if (((((int[])outcomes[outcome])[2] + ((int[])outcomes[outcome])[0]) / total) > bestOdds)
+                 
+                    if ((((decimal)((int[])outcomes[outcome])[2] + (decimal)((int[])outcomes[outcome])[0]) / (decimal)total) > bestOdds)
                     {
-                        bestOdds = (((int[])outcomes[outcome])[2] + ((int[])outcomes[outcome])[0]) / total;
+                        bestOdds = ((decimal)((int[])outcomes[outcome])[2] + (decimal)((int[])outcomes[outcome])[0]) / (decimal)total;
                         bestOutcome = ((int[])outcomes[outcome])[3];
+                        
                     }
                 }
             }

@@ -74,13 +74,19 @@ namespace TicTacToe
             int possibleProgressionsIndex = 0;
             foreach(Square square in Enum.GetValues(typeof(Square)))
             {
+                bool occupied = false;
                 foreach(Square occupiedSquare in occupiedSquares)
                 {
-                    if(square != occupiedSquare)
+                    if(square == occupiedSquare)
                     {
-                        ((ArrayList)possibleProgressions[possibleProgressionsIndex]).Add(new Move(nextToMove, (MoveNumber)(existingMoves.Count + 1), square));
-                        possibleProgressionsIndex++;
+                        occupied = true;
+                        break;
                     }
+                }
+                if (!occupied)
+                {
+                    ((ArrayList)possibleProgressions[possibleProgressionsIndex]).Add(new Move(nextToMove, (MoveNumber)(existingMoves.Count + 1), square));
+                    possibleProgressionsIndex++;
                 }
             }
 
