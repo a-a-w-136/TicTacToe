@@ -28,16 +28,16 @@ namespace TicTacToe
                 string error = "";
                 foreach(Move m in _progression)
                 {
-                    error += m.ToString();
+                    error += "\n" + m.ToString();
                 }
-
+                // TODO: Refactor this is not an easy error to understand
                 throw new Exception("Parameter(progression) cannot be null." +
                 "Max 9 moves per progression."
                 + "Second to move must make every even move."
                 + "First to move must make every odd move"
                 + "First move must be by the first to move"
                 + "Move number must ascend from 1 by 1."
-                + "Each move must only occupy a unique Square." + "/n" + error);
+                + "Each move must only occupy a unique Square." + "\n" + error);
             }
 
             PopulateWinningCombinations();

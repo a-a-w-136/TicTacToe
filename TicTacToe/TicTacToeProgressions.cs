@@ -25,6 +25,10 @@ namespace TicTacToe
                 return (Progression)(this._progressions[index]);
             }
         }
+        public int GetNumberOfProgressions()
+        {
+            return this._progressions.Count;
+        }
         private void CreateProgressions()
         {
 

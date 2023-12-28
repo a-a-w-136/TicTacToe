@@ -32,7 +32,7 @@ namespace TicTacToe
             {
                 if (square == ((Move)this._moves[i]).Square)
                 {
-                    throw new Exception($"Square ${square} is currently occupied. Cannot make this move.");
+                    throw new Exception($"Square {square} is currently occupied. Cannot make this move.");
                 }
             }
 
@@ -44,13 +44,29 @@ namespace TicTacToe
             {
                 this._moves.Add(new Move(Mover.first, ((Move)this._moves[this._moves.Count - 1]).MoveNumber + 1, square));
             }
-            Progression progression = new Progression((Move[])this._moves.ToArray());
+
+            // I don't like this conversion process
+            Move[] movesArray = new Move[this._moves.Count];
+            for(int i = 0; i < movesArray.Length; i++)
+            {
+                movesArray[i] = (Move)this._moves[i];
+            }
+            Progression progression = new Progression(movesArray);
+
+
             this.Outcome = progression.Outcome;
             return this.Outcome;
         }
         public Move GetMove(MoveNumber moveNumber)
         {
-            return (Move)this._moves[(int)moveNumber];
+            if ((int)moveNumber > _moves.Count)
+            {
+                return null;
+            }
+            else
+            {
+                return (Move)this._moves[(int)moveNumber - 1];
+            }
         }
     }
 }
